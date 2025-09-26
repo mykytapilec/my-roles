@@ -1,7 +1,7 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: './tsconfig.eslint.json',
+    project: './tsconfig.eslint.json', // используем отдельный tsconfig для ESLint
     sourceType: 'module',
   },
   plugins: ['@typescript-eslint', 'prettier'],
@@ -14,7 +14,12 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['dist/', 'node_modules/', '.eslintrc.js'],
+  ignorePatterns: [
+    'dist/',               // скомпилированные файлы
+    'node_modules/',       // зависимости
+    '.eslintrc.js',        // сам конфиг ESLint
+    '**/*.d.ts'            // типы TypeScript
+  ],
   rules: {
     'prettier/prettier': 'error',
     '@typescript-eslint/interface-name-prefix': 'off',
