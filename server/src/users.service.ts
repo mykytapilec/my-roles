@@ -1,6 +1,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { User } from './users.types';
+
 import { UsersRepository } from './users.repository';
+import { User } from './users.types';
 
 @Injectable()
 export class UsersService {

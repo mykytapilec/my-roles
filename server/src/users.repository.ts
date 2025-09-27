@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+
 import { User, DataFile } from './users.types';
 
 export class UsersRepository {

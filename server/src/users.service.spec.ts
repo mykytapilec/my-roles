@@ -1,7 +1,8 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService } from './users.service';
-import { UsersRepository } from './users.repository';
 import { BadRequestException } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
+
+import { UsersRepository } from './users.repository';
+import { UsersService } from './users.service';
 
 describe('UsersService (real repository)', () => {
   let service: UsersService;
