@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
 import { User, DataFile } from './users.types';
@@ -29,6 +29,11 @@ export class UsersService {
     const user = data.users.find((u) => u.id === id);
 
     if (!user) return null;
+
+    const invalidRoles = roles.filter((r) => !data.roles.includes(r));
+    if (invalidRoles.length > 0) {
+      throw new BadRequestException(`Invalid roles: ${invalidRoles.join(', ')}`);
+    }
 
     user.roles = roles;
     this.writeData(data);

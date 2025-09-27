@@ -11,8 +11,8 @@
       "id": 2,
       "name": "Bob",
       "roles": [
-        "editor",
-        "user"
+        "admin",
+        "editor"
       ]
     },
     {
