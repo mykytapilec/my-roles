@@ -1,8 +1,29 @@
 {
   "users": [
-    { "id": 1, "name": "Alice", "roles": ["admin"] },
-    { "id": 2, "name": "Bob", "roles": ["user"] },
-    { "id": 3, "name": "Charlie", "roles": [] }
+    {
+      "id": 1,
+      "name": "Alice",
+      "roles": [
+        "admin"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Bob",
+      "roles": [
+        "editor",
+        "user"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Charlie",
+      "roles": []
+    }
   ],
-  "roles": ["admin", "user", "editor"]
+  "roles": [
+    "admin",
+    "user",
+    "editor"
+  ]
 }
