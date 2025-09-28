@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <ThemeToggle />
               </Toolbar>
             </AppBar>
-            <Container sx={{ mt: 4 }}>{children}</Container>
+            <Container maxWidth="xl" sx={{ mt: 4 }}>{children}</Container>
           </ThemeProvider>
         </ThemeContextProvider>
       </body>
