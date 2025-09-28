@@ -5,6 +5,7 @@ It consists of two main parts:
 
 - Web client: React + Next.js frontend for managing users, editing roles, and filtering by roles.
 [Web README](./web/README.md)
+
 - Server: Node.js + Express backend providing REST API endpoints for users and role management.
 [Server README](./server/README.md)
 
@@ -12,8 +13,8 @@ It consists of two main parts:
 
 ## Screenshot
 
-![Application Screenshot](docs/desctop-light.png)
-![Application Screenshot](docs/mobile-dark.png)
+Desctop Light Theme ![Application Screenshot](docs/desctop-light.png)
+Mobile Dark Theme ![Application Screenshot](docs/mobile-dark.png)
 
 ---
 
