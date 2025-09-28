@@ -1,22 +1,10 @@
-'use client';
-
 import React from 'react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Select,
-  MenuItem,
-  Chip,
-  Box,
-} from '@mui/material';
-import { User } from '@/types/user';
+import { Table, TableBody, TableCell, TableHead, TableRow, Select, MenuItem, Chip, Box } from '@mui/material';
+import { User, Role } from '@/types/user';
 
 interface UsersTableProps {
   users: User[];
-  onUpdateRoles: (userId: number, roles: string[]) => void;
+  onUpdateRoles: (userId: number, roles: Role[]) => void;
 }
 
 export default function UsersTable({ users, onUpdateRoles }: UsersTableProps) {
@@ -43,12 +31,12 @@ export default function UsersTable({ users, onUpdateRoles }: UsersTableProps) {
                 onChange={(e) =>
                   onUpdateRoles(
                     user.id,
-                    typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value
+                    typeof e.target.value === 'string' ? (e.target.value.split(',') as Role[]) : e.target.value
                   )
                 }
                 renderValue={(selected) => (
                   <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                    {(selected as string[]).map((role) => (
+                    {selected.map((role) => (
                       <Chip key={role} label={role} size="small" />
                     ))}
                   </Box>

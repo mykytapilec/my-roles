@@ -1,8 +1,8 @@
+export type Role = 'admin' | 'editor' | 'viewer';
+
 export interface User {
   id: number;
   name: string;
   email: string;
-  roles: string[];
+  roles: Role[];
 }
-
-export type Role = 'admin' | 'editor' | 'viewer';

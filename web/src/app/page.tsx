@@ -28,6 +28,7 @@ export default function UsersPage() {
         position="sticky"
         top={0}
         zIndex={10}
+        borderRadius={2}
       >
         <Typography variant="h5">Users Management</Typography>
         <FormControlLabel

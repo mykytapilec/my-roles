@@ -1,10 +1,11 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import UsersTable from '../UsersTable';
+import { Role, User } from '@/types/user';
 
-const mockUsers = [
-  { id: 1, name: 'Alice', email: 'alice@test.com', roles: ['admin'] },
-  { id: 2, name: 'Bob', email: 'bob@test.com', roles: ['editor'] },
+const mockUsers: User[] = [
+  { id: 1, name: 'Alice', email: 'alice@test.com', roles: ['admin'] as Role[] },
+  { id: 2, name: 'Bob', email: 'bob@test.com', roles: ['editor'] as Role[] },
 ];
 
 describe('UsersTable', () => {
@@ -16,9 +17,9 @@ describe('UsersTable', () => {
   });
 
   it('renders user names and roles', () => {
-    mockUsers.forEach(user => {
+    mockUsers.forEach((user) => {
       expect(screen.getByText(user.name)).toBeInTheDocument();
-      user.roles.forEach(role => {
+      user.roles.forEach((role) => {
         expect(screen.getAllByRole('combobox')[mockUsers.indexOf(user)]).toHaveTextContent(role);
       });
     });

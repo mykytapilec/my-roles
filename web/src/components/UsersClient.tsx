@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useEffect, useState } from 'react';
 import {
   Box,
@@ -16,7 +14,7 @@ import {
 import UsersTable from './UsersTable';
 import { useApi } from '@/hooks/useApi';
 import { useSnackbar } from '@/hooks/useSnackbar';
-import { User } from '@/types/user';
+import { User, Role } from '@/types/user';
 
 export default function UsersClient() {
   const { fetchUsers, updateUserRoles } = useApi();
@@ -24,7 +22,7 @@ export default function UsersClient() {
   const [filteredUsers, setFilteredUsers] = useState<User[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<unknown>(null);
-  const [rolesFilter, setRolesFilter] = useState<string[]>([]);
+  const [rolesFilter, setRolesFilter] = useState<Role[]>([]);
 
   const { snackbar, showSnackbar, closeSnackbar } = useSnackbar();
 
@@ -45,16 +43,14 @@ export default function UsersClient() {
 
   useEffect(() => {
     if (!users) return;
-    if (rolesFilter.length === 0) {
-      setFilteredUsers(users);
-    } else {
-      setFilteredUsers(
-        users.filter((u) => u.roles.some((role) => rolesFilter.includes(role)))
-      );
-    }
+    setFilteredUsers(
+      rolesFilter.length === 0
+        ? users
+        : users.filter((u) => u.roles.some((role) => rolesFilter.includes(role)))
+    );
   }, [rolesFilter, users]);
 
-  const handleUpdateRoles = async (userId: number, roles: string[]) => {
+  const handleUpdateRoles = async (userId: number, roles: Role[]) => {
     if (!users) return;
     try {
       const updated = await updateUserRoles(userId, roles);
@@ -65,9 +61,9 @@ export default function UsersClient() {
     }
   };
 
-  const handleFilterChange = (event: SelectChangeEvent<string[]>) => {
+  const handleFilterChange = (event: SelectChangeEvent<Role[]>) => {
     const value = event.target.value;
-    setRolesFilter(typeof value === 'string' ? value.split(',') : value);
+    setRolesFilter(typeof value === 'string' ? (value.split(',') as Role[]) : value);
   };
 
   if (loading)
@@ -82,17 +78,7 @@ export default function UsersClient() {
   if (!users || users.length === 0) return <Alert severity="info">No users found</Alert>;
 
   return (
-    <Box
-      sx={{
-        padding: { xs: 2, sm: 3, md: 4 },
-        bgcolor: 'background.paper',
-        borderRadius: 2,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 2,
-      }}
-    >
-      {/* Фильтр по ролям */}
+    <Box sx={{ padding: { xs: 2, sm: 3, md: 4 }, bgcolor: 'background.paper', borderRadius: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
       <FormControl sx={{ mb: 2, width: '100%', maxWidth: 300 }}>
         <InputLabel id="roles-filter-label">Filter by Role</InputLabel>
         <Select
@@ -102,8 +88,8 @@ export default function UsersClient() {
           onChange={handleFilterChange}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {(selected as string[]).map((value) => (
-                <Chip key={value} label={value} />
+              {selected.map((role) => (
+                <Chip key={role} label={role} />
               ))}
             </Box>
           )}
@@ -116,41 +102,12 @@ export default function UsersClient() {
         </Select>
       </FormControl>
 
-      {/* Таблица пользователей */}
       <UsersTable users={filteredUsers!} onUpdateRoles={handleUpdateRoles} />
 
-      {/* Снэкбар */}
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={4000}
-        onClose={closeSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        TransitionProps={{ appear: true }}
-      >
-        <Box
-          sx={{
-            bgcolor:
-              snackbar.severity === 'error'
-                ? 'error.main'
-                : snackbar.severity === 'success'
-                ? 'success.main'
-                : snackbar.severity === 'warning'
-                ? 'warning.main'
-                : 'info.main',
-            color: 'primary.contrastText',
-            px: 3,
-            py: 1.5,
-            borderRadius: 2,
-            boxShadow: 3,
-            minWidth: 200,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            fontWeight: 500,
-          }}
-        >
+      <Snackbar open={snackbar.open} autoHideDuration={4000} onClose={closeSnackbar} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+        <Alert onClose={closeSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
           {snackbar.message}
-        </Box>
+        </Alert>
       </Snackbar>
     </Box>
   );
