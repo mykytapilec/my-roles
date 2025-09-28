@@ -2,19 +2,32 @@
 
 import React from 'react';
 import {
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,
-  Select, MenuItem, Checkbox, ListItemText, Box
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Select,
+  MenuItem,
+  Box,
+  Chip,
 } from '@mui/material';
 import { User } from '@/types/user';
 
-const ALL_ROLES = ['admin', 'editor', 'viewer'];
-
 interface UsersTableProps {
   users: User[];
-  onUpdateRoles?: (id: number, roles: string[]) => void;
+  onUpdateRoles: (userId: number, roles: string[]) => void;
 }
 
+const allRoles = ['admin', 'editor', 'viewer'];
+
 export default function UsersTable({ users, onUpdateRoles }: UsersTableProps) {
+  const handleChange = (userId: number, roles: string[]) => {
+    onUpdateRoles(userId, roles);
+  };
+
   return (
     <Box sx={{ width: '100%', overflowX: 'auto' }}>
       <TableContainer component={Paper}>
@@ -38,15 +51,25 @@ export default function UsersTable({ users, onUpdateRoles }: UsersTableProps) {
                     multiple
                     value={user.roles}
                     onChange={(e) =>
-                      onUpdateRoles?.(user.id, e.target.value as string[])
+                      handleChange(
+                        user.id,
+                        typeof e.target.value === 'string'
+                          ? e.target.value.split(',')
+                          : e.target.value
+                      )
                     }
-                    renderValue={(selected) => (selected as string[]).join(', ')}
+                    renderValue={(selected) => (
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                        {(selected as string[]).map((role) => (
+                          <Chip key={role} label={role} />
+                        ))}
+                      </Box>
+                    )}
                     sx={{ minWidth: 150 }}
                   >
-                    {ALL_ROLES.map((role) => (
+                    {allRoles.map((role) => (
                       <MenuItem key={role} value={role}>
-                        <Checkbox checked={user.roles.includes(role)} />
-                        <ListItemText primary={role} />
+                        {role}
                       </MenuItem>
                     ))}
                   </Select>

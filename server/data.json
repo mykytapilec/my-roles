@@ -5,7 +5,8 @@
       "name": "Alice",
       "email": "alice@example.com",
       "roles": [
-        "admin"
+        "admin",
+        "viewer"
       ]
     },
     {
@@ -13,7 +14,8 @@
       "name": "Bob",
       "email": "bob@example.com",
       "roles": [
-        "admin"
+        "admin",
+        "viewer"
       ]
     },
     {
