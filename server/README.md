@@ -21,7 +21,6 @@ It provides REST API endpoints for managing users and their roles.
 
 Navigate to the `server` folder and install packages:
 
-```bash
 cd server
 npm install
 

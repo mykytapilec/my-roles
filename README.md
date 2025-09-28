@@ -4,9 +4,9 @@ A full-stack application for managing users and their roles.
 It consists of two main parts:
 
 Web client: React + Next.js frontend for managing users, editing roles, and filtering by roles.
-![README link](web/README.md)
+(web/README.md)
 Server: Node.js + Express backend providing REST API endpoints for users and role management.
-![README link](server/README.md)
+(server/README.md)
 
 ---
 
@@ -14,8 +14,6 @@ Server: Node.js + Express backend providing REST API endpoints for users and rol
 
 ![Application Screenshot](docs/desctop-light.png)
 ![Application Screenshot](docs/mobile-dark.png)
-
-> Make sure the screenshot file `screenshot.png` is located in the `web` folder so it renders correctly on GitHub.
 
 ---
 

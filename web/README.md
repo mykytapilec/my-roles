@@ -1,4 +1,4 @@
-# My Roles - Web Frontend
+ # My Roles - Web Frontend
 This is the frontend of the **My Roles** application, built with **Next.js** and **Material-UI (MUI)**.  
 It connects to the NestJS backend to display and manage users and their roles.
 
@@ -17,7 +17,6 @@ It connects to the NestJS backend to display and manage users and their roles.
 ### 1. Install Dependencies
 Navigate to the `web` folder and install packages:
 
-```bash
 cd web
 npm install
 
