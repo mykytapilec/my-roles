@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useContext } from "react";
-import { IconButton } from "@mui/material";
-import { Brightness4, Brightness7 } from "@mui/icons-material";
-import { ThemeContext } from "@/context/ThemeContext";
+import React from 'react';
+import { IconButton } from '@mui/material';
+import { Brightness4, Brightness7 } from '@mui/icons-material';
+import { useThemeContext } from '@/context/ThemeContext';
 
 export default function ThemeToggle() {
-  const { toggleTheme, mode } = useContext(ThemeContext);
+  const { mode, toggleTheme } = useThemeContext();
 
   return (
-    <IconButton onClick={toggleTheme} color="inherit">
-      {mode === "light" ? <Brightness4 /> : <Brightness7 />}
+    <IconButton color="inherit" onClick={toggleTheme}>
+      {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
     </IconButton>
   );
 }

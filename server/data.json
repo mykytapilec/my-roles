@@ -3,6 +3,7 @@
     {
       "id": 1,
       "name": "Alice",
+      "email": "alice@example.com",
       "roles": [
         "admin"
       ]
@@ -10,6 +11,7 @@
     {
       "id": 2,
       "name": "Bob",
+      "email": "bob@example.com",
       "roles": [
         "admin",
         "editor"
@@ -18,12 +20,15 @@
     {
       "id": 3,
       "name": "Charlie",
-      "roles": []
+      "email": "charlie@example.com",
+      "roles": [
+        "editor"
+      ]
     }
   ],
   "roles": [
     "admin",
-    "user",
+    "viewer",
     "editor"
   ]
 }

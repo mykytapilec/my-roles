@@ -1,78 +1,25 @@
-"use client";
+// src/hooks/useApi.ts
+import { useCallback } from 'react';
+import { User } from '@/types/user';
 
-import { useState, useEffect } from "react";
-import { User, Role } from "@/types/user";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 export function useApi() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [roles, setRoles] = useState<Role[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const API_URL = "http://localhost:3000";
-
-  async function fetchUsers() {
-    try {
-      setLoading(true);
-      const res = await fetch(`${API_URL}/users`);
-      if (!res.ok) throw new Error("Failed to fetch users");
-      const data: User[] = await res.json();
-      setUsers(data);
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError(String(err));
-      }
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function fetchRoles() {
-    try {
-      const res = await fetch(`${API_URL}/roles`);
-      if (!res.ok) throw new Error("Failed to fetch roles");
-      const data: Role[] = await res.json();
-      setRoles(data);
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError(String(err));
-      }
-    }
-  }
-
-  useEffect(() => {
-    fetchRoles();
-    fetchUsers();
+  const fetchUsers = useCallback(async (): Promise<User[]> => {
+    const res = await fetch(`${API_URL}/users`);
+    if (!res.ok) throw new Error('Failed to fetch users');
+    return res.json();
   }, []);
 
-  const updateUserRoles = async (userId: number, newRoles: Role[]) => {
-    try {
-      const res = await fetch(`${API_URL}/users/${userId}/roles`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ roles: newRoles }),
-      });
-      if (!res.ok) throw new Error("Failed to update roles");
-      const updatedUser: User = await res.json();
-      setUsers((prev) => prev.map((u) => (u.id === userId ? updatedUser : u)));
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError(String(err));
-      }
-    }
-  };
+  const updateUserRoles = useCallback(async (id: number, roles: string[]): Promise<User> => {
+    const res = await fetch(`${API_URL}/users/${id}/roles`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ roles }),
+    });
+    if (!res.ok) throw new Error('Failed to update user roles');
+    return res.json();
+  }, []);
 
-  return {
-    users,
-    roles,
-    loading,
-    error,
-    updateUserRoles,
-  };
+  return { fetchUsers, updateUserRoles };
 }

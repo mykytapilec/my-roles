@@ -1,34 +1,32 @@
-"use client";
+'use client';
 
-import { createContext, useMemo, useState, ReactNode } from "react";
-import { ThemeProvider, CssBaseline } from "@mui/material";
-import { darkTheme, lightTheme } from "@/theme";
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-type ThemeContextType = {
+type ThemeMode = 'light' | 'dark';
+
+interface ThemeContextProps {
+  mode: ThemeMode;
   toggleTheme: () => void;
-  mode: "light" | "dark";
-};
+}
 
-export const ThemeContext = createContext<ThemeContextType>({
-  toggleTheme: () => {},
-  mode: "light",
-});
+const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 
-export default function CustomThemeProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<"light" | "dark">("light");
+export const ThemeContextProvider = ({ children }: { children: ReactNode }) => {
+  const [mode, setMode] = useState<ThemeMode>('light');
 
   const toggleTheme = () => {
-    setMode((prev) => (prev === "light" ? "dark" : "light"));
+    setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
 
-  const theme = useMemo(() => (mode === "light" ? lightTheme : darkTheme), [mode]);
-
   return (
-    <ThemeContext.Provider value={{ toggleTheme, mode }}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
-      </ThemeProvider>
+    <ThemeContext.Provider value={{ mode, toggleTheme }}>
+      {children}
     </ThemeContext.Provider>
   );
-}
+};
+
+export const useThemeContext = () => {
+  const context = useContext(ThemeContext);
+  if (!context) throw new Error('useThemeContext must be used within ThemeContextProvider');
+  return context;
+};
