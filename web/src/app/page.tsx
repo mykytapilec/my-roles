@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { CircularProgress, Alert, Snackbar } from '@mui/material';
 import UsersTable from '@/components/UsersTable';
 import { useApi } from '@/hooks/useApi';
+import { useSnackbar } from '@/hooks/useSnackbar';
 import { User } from '@/types/user';
 
 export default function HomePage() {
@@ -12,10 +13,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<unknown>(null);
 
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string }>({
-    open: false,
-    message: '',
-  });
+  const { snackbar, showSnackbar, closeSnackbar } = useSnackbar();
 
   useEffect(() => {
     const loadUsers = async () => {
@@ -38,12 +36,8 @@ export default function HomePage() {
       setUsers(users.map((u) => (u.id === userId ? updated : u)));
     } catch (err) {
       console.error(err);
-      setSnackbar({ open: true, message: 'Failed to update roles' });
+      showSnackbar('Failed to update roles', 'error');
     }
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbar({ open: false, message: '' });
   };
 
   if (loading) return <CircularProgress />;
@@ -57,10 +51,14 @@ export default function HomePage() {
       <Snackbar
         open={snackbar.open}
         autoHideDuration={4000}
-        onClose={handleCloseSnackbar}
+        onClose={closeSnackbar}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
+        <Alert
+          onClose={closeSnackbar}
+          severity={snackbar.severity}
+          sx={{ width: '100%' }}
+        >
           {snackbar.message}
         </Alert>
       </Snackbar>

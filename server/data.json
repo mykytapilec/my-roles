@@ -21,7 +21,7 @@
       "name": "Charlie",
       "email": "charlie@example.com",
       "roles": [
-        "admin"
+        "editor"
       ]
     }
   ],
