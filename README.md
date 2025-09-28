@@ -4,9 +4,9 @@ A full-stack application for managing users and their roles.
 It consists of two main parts:
 
 Web client: React + Next.js frontend for managing users, editing roles, and filtering by roles.
-![](web/README.md)
+[Web README](./web/README.md)
 Server: Node.js + Express backend providing REST API endpoints for users and role management.
-![](server/README.md)
+[Server README](./server/README.md)
 
 ---
 
