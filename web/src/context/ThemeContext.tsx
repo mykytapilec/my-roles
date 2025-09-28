@@ -18,11 +18,7 @@ export const ThemeContextProvider = ({ children }: { children: ReactNode }) => {
     setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
 
-  return (
-    <ThemeContext.Provider value={{ mode, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={{ mode, toggleTheme }}>{children}</ThemeContext.Provider>;
 };
 
 export const useThemeContext = () => {

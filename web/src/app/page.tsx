@@ -49,9 +49,7 @@ export default function HomePage() {
     if (rolesFilter.length === 0) {
       setFilteredUsers(users);
     } else {
-      setFilteredUsers(
-        users.filter(u => u.roles.some(role => rolesFilter.includes(role)))
-      );
+      setFilteredUsers(users.filter((u) => u.roles.some((role) => rolesFilter.includes(role))));
     }
   }, [rolesFilter, users]);
 
@@ -59,7 +57,7 @@ export default function HomePage() {
     if (!users) return;
     try {
       const updated = await updateUserRoles(userId, roles);
-      setUsers(users.map(u => (u.id === userId ? updated : u)));
+      setUsers(users.map((u) => (u.id === userId ? updated : u)));
     } catch (err) {
       console.error(err);
       showSnackbar('Failed to update roles', 'error');
@@ -88,8 +86,7 @@ export default function HomePage() {
     );
 
   if (error) return <Alert severity="error">Failed to load users</Alert>;
-  if (!users || users.length === 0)
-    return <Alert severity="info">No users found</Alert>;
+  if (!users || users.length === 0) return <Alert severity="info">No users found</Alert>;
 
   return (
     <Box>
@@ -124,11 +121,7 @@ export default function HomePage() {
         onClose={closeSnackbar}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert
-          onClose={closeSnackbar}
-          severity={snackbar.severity}
-          sx={{ width: '100%' }}
-        >
+        <Alert onClose={closeSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
           {snackbar.message}
         </Alert>
       </Snackbar>

@@ -5,4 +5,4 @@ export interface User {
   roles: string[];
 }
 
-export type Role = "admin" | "editor" | "viewer";
+export type Role = 'admin' | 'editor' | 'viewer';
