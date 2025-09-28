@@ -22,7 +22,7 @@ export function useSnackbar(initialState?: Partial<SnackbarState>) {
   );
 
   const closeSnackbar = useCallback(() => {
-    setSnackbar((prev) => ({ ...prev, open: false }));
+    setSnackbar({ open: false, message: '', severity: 'info' });
   }, []);
 
   return { snackbar, showSnackbar, closeSnackbar };

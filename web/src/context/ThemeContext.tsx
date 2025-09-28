@@ -1,28 +1,64 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-
-type ThemeMode = 'light' | 'dark';
+import React, { createContext, useState, useContext, ReactNode } from 'react';
+import {
+  ThemeProvider,
+  createTheme,
+  PaletteMode,
+  CssBaseline,
+} from '@mui/material';
 
 interface ThemeContextProps {
-  mode: ThemeMode;
+  mode: PaletteMode;
   toggleTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 
-export const ThemeContextProvider = ({ children }: { children: ReactNode }) => {
-  const [mode, setMode] = useState<ThemeMode>('light');
-
-  const toggleTheme = () => {
-    setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
-  };
-
-  return <ThemeContext.Provider value={{ mode, toggleTheme }}>{children}</ThemeContext.Provider>;
-};
-
 export const useThemeContext = () => {
   const context = useContext(ThemeContext);
-  if (!context) throw new Error('useThemeContext must be used within ThemeContextProvider');
+  if (!context) throw new Error('useThemeContext must be used within ThemeProvider');
   return context;
+};
+
+export const CustomThemeProvider = ({ children }: { children: ReactNode }) => {
+  const [mode, setMode] = useState<PaletteMode>('light');
+
+  const toggleTheme = () => setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
+
+  const theme = createTheme({
+    palette: {
+      mode,
+      ...(mode === 'light'
+        ? {
+            background: {
+              default: '#f5f5f5',
+              paper: '#fff',
+            },
+            text: {
+              primary: '#000',
+              secondary: '#555',
+            },
+          }
+        : {
+            background: {
+              default: '#121212',
+              paper: '#1e1e1e',
+            },
+            text: {
+              primary: '#fff',
+              secondary: '#aaa',
+            },
+          }),
+    },
+  });
+
+  return (
+    <ThemeContext.Provider value={{ mode, toggleTheme }}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
+    </ThemeContext.Provider>
+  );
 };
