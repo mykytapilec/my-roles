@@ -10,6 +10,7 @@ import {
   Select,
   MenuItem,
   Chip,
+  Box,
 } from '@mui/material';
 import { User } from '@/types/user';
 
@@ -20,8 +21,8 @@ interface UsersTableProps {
 
 export default function UsersTable({ users, onUpdateRoles }: UsersTableProps) {
   return (
-    <Table stickyHeader>
-      <TableHead>
+    <Table stickyHeader sx={{ width: '100%' }}>
+      <TableHead sx={{ backgroundColor: 'background.paper' }}>
         <TableRow>
           <TableCell>ID</TableCell>
           <TableCell>Name</TableCell>
@@ -46,12 +47,13 @@ export default function UsersTable({ users, onUpdateRoles }: UsersTableProps) {
                   )
                 }
                 renderValue={(selected) => (
-                  <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                  <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
                     {(selected as string[]).map((role) => (
                       <Chip key={role} label={role} size="small" />
                     ))}
-                  </div>
+                  </Box>
                 )}
+                sx={{ minWidth: 120 }}
               >
                 {['admin', 'editor', 'viewer'].map((role) => (
                   <MenuItem key={role} value={role}>

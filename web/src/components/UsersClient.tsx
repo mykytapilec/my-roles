@@ -48,7 +48,9 @@ export default function UsersClient() {
     if (rolesFilter.length === 0) {
       setFilteredUsers(users);
     } else {
-      setFilteredUsers(users.filter((u) => u.roles.some((role) => rolesFilter.includes(role))));
+      setFilteredUsers(
+        users.filter((u) => u.roles.some((role) => rolesFilter.includes(role)))
+      );
     }
   }, [rolesFilter, users]);
 
@@ -80,8 +82,18 @@ export default function UsersClient() {
   if (!users || users.length === 0) return <Alert severity="info">No users found</Alert>;
 
   return (
-    <Box sx={{ padding: '20px' }}>
-      <FormControl sx={{ mb: 2, minWidth: 200 }}>
+    <Box
+      sx={{
+        padding: { xs: 2, sm: 3, md: 4 },
+        bgcolor: 'background.paper',
+        borderRadius: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+      }}
+    >
+      {/* Фильтр по ролям */}
+      <FormControl sx={{ mb: 2, width: '100%', maxWidth: 300 }}>
         <InputLabel id="roles-filter-label">Filter by Role</InputLabel>
         <Select
           labelId="roles-filter-label"
@@ -104,17 +116,41 @@ export default function UsersClient() {
         </Select>
       </FormControl>
 
+      {/* Таблица пользователей */}
       <UsersTable users={filteredUsers!} onUpdateRoles={handleUpdateRoles} />
 
+      {/* Снэкбар */}
       <Snackbar
         open={snackbar.open}
         autoHideDuration={4000}
         onClose={closeSnackbar}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        TransitionProps={{ appear: true }}
       >
-        <Alert onClose={closeSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+        <Box
+          sx={{
+            bgcolor:
+              snackbar.severity === 'error'
+                ? 'error.main'
+                : snackbar.severity === 'success'
+                ? 'success.main'
+                : snackbar.severity === 'warning'
+                ? 'warning.main'
+                : 'info.main',
+            color: 'primary.contrastText',
+            px: 3,
+            py: 1.5,
+            borderRadius: 2,
+            boxShadow: 3,
+            minWidth: 200,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontWeight: 500,
+          }}
+        >
           {snackbar.message}
-        </Alert>
+        </Box>
       </Snackbar>
     </Box>
   );

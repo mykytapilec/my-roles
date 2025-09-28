@@ -26,32 +26,24 @@ export const CustomThemeProvider = ({ children }: { children: ReactNode }) => {
 
   const toggleTheme = () => setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
 
-  const theme = createTheme({
-    palette: {
-      mode,
-      ...(mode === 'light'
-        ? {
-            background: {
-              default: '#f5f5f5',
-              paper: '#fff',
-            },
-            text: {
-              primary: '#000',
-              secondary: '#555',
-            },
-          }
-        : {
-            background: {
-              default: '#121212',
-              paper: '#1e1e1e',
-            },
-            text: {
-              primary: '#fff',
-              secondary: '#aaa',
-            },
-          }),
-    },
-  });
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode,
+          ...(mode === 'light'
+            ? {
+                background: { default: '#f5f5f5', paper: '#fff' },
+                text: { primary: '#000', secondary: '#555' },
+              }
+            : {
+                background: { default: '#121212', paper: '#1e1e1e' },
+                text: { primary: '#fff', secondary: '#aaa' },
+              }),
+        },
+      }),
+    [mode]
+  );
 
   return (
     <ThemeContext.Provider value={{ mode, toggleTheme }}>

@@ -9,7 +9,14 @@ export default function UsersPage() {
   const { mode, toggleTheme } = useThemeContext();
 
   return (
-    <Box>
+    <Box
+      sx={{
+        maxWidth: 1200,
+        margin: '0 auto',
+        px: { xs: 2, sm: 3, md: 4 },
+        py: 2,
+      }}
+    >
       <Box
         display="flex"
         justifyContent="space-between"
